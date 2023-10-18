@@ -22,9 +22,10 @@ const unzipper = require("unzipper"),
  */
 const unzip = (pathIn, pathOut) => {
   fs.createReadStream(pathIn)
-  .on("Error", (err) => console.log(err))
+  .on("error", (err) => console.log(err))
   .pipe(unzipper.Extract({ path: pathOut}))
-  .on("Error", (err) => console.log(err))
+  .on("error", (err) => console.log(err))
+  .on("end", () => console.log("Extraction operation complete"))
 };
 
 /**
@@ -33,7 +34,20 @@ const unzip = (pathIn, pathOut) => {
  * @param {string} path
  * @return {promise}
  */
-const readDir = (dir) => {};
+const readDir = (dir) => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(dir, (err, files) => {
+      if (err) {
+        reject(err);
+      } else {
+        const pngFiles = files
+        .filter((file) => file.toLowerCase().endsWith(".png"))
+        .map((file) => path.join(dir, file));
+      resolve(pngFiles);
+      }
+    })
+  })
+};
 
 /**
  * Description: Read in png file by given pathIn,
