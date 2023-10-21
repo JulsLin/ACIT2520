@@ -45,5 +45,4 @@ name the file (inModified.png)
 // "C:\\Users\\Juls\\......extracted\\in1.png,
 // C:\\users......in2.png"]
 
-
 // const grayScale = (pathIn, pathOut)
